@@ -19,7 +19,7 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
 
 
 app.get('/api', (req, res) => {
-  res.send('Hello World!')
+  res.send('Backend Connection Successful: Hello World!')
 })
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
