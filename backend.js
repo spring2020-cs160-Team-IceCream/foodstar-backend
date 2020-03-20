@@ -21,7 +21,7 @@ sequelize.define('Authentication', {
 });
 
 
-app.get('/api', (req, res) => {
+app.get('/api', async (req, res) => {
   const users = await sequelize.models.Authentication.findAll();
   res.send(users)
 })
