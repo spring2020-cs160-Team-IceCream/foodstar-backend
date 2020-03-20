@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const { Sequelize } = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
   host: 'localhost',
   dialect: 'mysql'
