@@ -8,18 +8,24 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
   dialect: 'mysql'
 });
 
-(async() => {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-})();
+sequelize.define('Authentication', {
+  // Model attributes are defined here
+  username: {type: DataTypes.STRING},
+  password: {type: DataTypes.STRING},
+  startsalt: {type: DataTypes.STRING},
+  endsalt: {type: DataTypes.STRING},
+  user_id_fk: {type: DataTypes.INTEGER}
+}, {
+  // Other model options go here
+  tableName: 'authentication'
+});
+
+
 
 
 app.get('/api', (req, res) => {
-  res.send('Backend Connection Successful: Hello World 6!')
+  const users = await sequelize.models.Authentication.findAll();
+  res.send(users)
 })
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
