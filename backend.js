@@ -20,7 +20,8 @@ sequelize.define('Authentication', {
   }
 }, {
   // Other model options go here
-  tableName: 'authentication'
+  tableName: 'authentication',
+  timestamps: false
 });
 
 
