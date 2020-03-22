@@ -9,10 +9,11 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
 });
 
 const Authentication = require('./models/authentication')(sequelize, DataTypes)
+const Post = require('./models/post')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = await Authentication.findAll();
+  const users = await Post.findAll();
   res.send(users)
 })
 
