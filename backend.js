@@ -16,7 +16,8 @@ const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = await Users.findAll();
+  test = 0;
+  const users = await Users.findAll({where: {"user_id": test}});
   res.send(users)
 })
 
