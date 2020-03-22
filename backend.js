@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-var prettyHtml = require('json-pretty-html').default;
-
 const { Sequelize, DataTypes } = require('sequelize')
 const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
   host: 'localhost',
@@ -18,7 +16,7 @@ const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = prettyHtml(json, await Users.findAll());
+  const users = await Users.findAll();
   res.send(users)
 })
 
