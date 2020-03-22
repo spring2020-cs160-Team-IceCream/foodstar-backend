@@ -11,10 +11,11 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
 const Authentication = require('./models/authentication')(sequelize, DataTypes)
 const Post = require('./models/post')(sequelize, DataTypes)
 const Restaurant = require('./models/restaurant')(sequelize, DataTypes)
+const Settings = require('./models/settings')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = await Restaurant.findAll();
+  const users = await Settings.findAll();
   res.send(users)
 })
 
