@@ -8,7 +8,7 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
   dialect: 'mysql'
 });
 
-const Authentication = require('./models/authentication')(sequelize, Sequelize)
+const Authentication = require('./models/authentication')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {

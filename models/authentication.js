@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Authentication', {
         // Model attributes are defined here
         username: { type: DataTypes.STRING },
