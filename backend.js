@@ -12,10 +12,11 @@ const Authentication = require('./models/authentication')(sequelize, DataTypes)
 const Post = require('./models/post')(sequelize, DataTypes)
 const Restaurant = require('./models/restaurant')(sequelize, DataTypes)
 const Settings = require('./models/settings')(sequelize, DataTypes)
+const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = await Settings.findAll();
+  const users = await Users.findAll();
   res.send(users)
 })
 
