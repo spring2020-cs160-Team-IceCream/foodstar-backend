@@ -16,7 +16,7 @@ const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  const users = await Users.findAll();
+  const users = JSON.stringify(await Users.findAll(), null, 4);
   res.send(users)
 })
 
