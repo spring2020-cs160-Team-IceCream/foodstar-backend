@@ -19,18 +19,39 @@ const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  test = 1;
-  const users = await Users.findAll({where: {"user_id": test}});
+  username = req.body.username
+  users = await Authentication.findAll({ where: { "username": username } });
   res.send(users)
+
+  hashfunc = crypto.createHash('ripemd160')
+  if (users.length > 0) {
+    user = users[0]
+
+    hashfunc.update(user.startsalt.concat(user.password, user.endsalt))
+    hash = hashfunc.digest();
+    console.log(hash)
+  }
 })
 
 app.post('/api/login', async (req, res) => {
-  var hashfunc = crypto.createHash('ripemd160');
-  hashfunc.update(req.body.username)
-  console.log(hashfunc.digest('base64'))
-  username = req.body.username;
-  const users = await Authentication.findAll({where: {"username": username}});
-  res.send(users)
+  hashfunc = crypto.createHash('ripemd160')
+  username = req.body.username
+  password = req.body.password
+
+  users = await Authentication.findAll({ where: { "username": username } });
+  if (users.length > 0) {
+    user = users[0]
+    token = user.password
+
+    hashfunc.update(user.startsalt.concat(password, user.endsalt))
+    hash = hashfunc.digest();
+
+    if (hash === token) {
+      res.send("nice!")
+    }
+  } else {
+    res.send("f");
+  }
 })
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
