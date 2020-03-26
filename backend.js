@@ -29,6 +29,8 @@ app.post('/api/login', async (req, res) => {
   username = req.body.username
   password = req.body.password
 
+  status = {status: "f"}
+
   users = await Authentication.findAll({ where: { "username": username } });
   if (users.length > 0) {
     user = users[0]
@@ -40,11 +42,10 @@ app.post('/api/login', async (req, res) => {
     console.log(hash)
     
     if (hash === token) {
-      res.send({status: "nice!"})
+      status.status = "nice!"
     }
-  } else {
-    res.send({status: "f"});
   }
+  res.send(status);
 })
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
