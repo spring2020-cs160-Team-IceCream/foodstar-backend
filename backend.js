@@ -21,4 +21,11 @@ app.get('/api', async (req, res) => {
   res.send(users)
 })
 
+app.post('/api/login', async (req, res) => {
+  console.log(req)
+  test = 1;
+  const users = await Users.findAll({where: {"user_id": test}});
+  res.send(users)
+})
+
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
