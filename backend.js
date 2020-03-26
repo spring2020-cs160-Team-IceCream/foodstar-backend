@@ -4,7 +4,6 @@ app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 const port = 3000
 const crypto = require('crypto');
-var hashfunc = crypto.createHash('ripemd160');
 
 const { Sequelize, DataTypes } = require('sequelize')
 const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
@@ -26,7 +25,9 @@ app.get('/api', async (req, res) => {
 })
 
 app.post('/api/login', async (req, res) => {
-  console.log(hashfunc(req.body.username))
+  var hashfunc = crypto.createHash('ripemd160');
+  hashfunc.update(req.body.username)
+  console.log(hashfunc.digest('base64'))
   username = req.body.username;
   const users = await Authentication.findAll({where: {"username": username}});
   res.send(users)
