@@ -35,7 +35,7 @@ app.post('/api/login', async (req, res) => {
     token = user.password
 
     hashfunc.update(user.startsalt.concat(password, user.endsalt))
-    hash = hashfunc.digest();
+    hash = hashfunc.digest('base64');
 
     console.log(hash)
     
