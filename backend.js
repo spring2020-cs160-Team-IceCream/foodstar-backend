@@ -40,10 +40,10 @@ app.post('/api/login', async (req, res) => {
     console.log(hash)
     
     if (hash === token) {
-      res.send("nice!")
+      res.send({status: "nice!"})
     }
   } else {
-    res.send("f");
+    res.send({status: "f"});
   }
 })
 
