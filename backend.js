@@ -25,8 +25,8 @@ app.get('/api', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   console.log(req.body)
-  test = 1;
-  const users = await Users.findAll({where: {"user_id": test}});
+  username = req.body.username;
+  const users = await Authentication.findAll({where: {"username": username}});
   res.send(users)
 })
 
