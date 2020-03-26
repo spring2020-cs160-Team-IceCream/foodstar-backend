@@ -19,18 +19,9 @@ const Users = require('./models/users')(sequelize, DataTypes)
 
 
 app.get('/api', async (req, res) => {
-  username = req.body.username
-  users = await Authentication.findAll({ where: { "username": username } });
+  test = 1;
+  const users = await Users.findAll({ where: { "user_id": test } });
   res.send(users)
-
-  hashfunc = crypto.createHash('ripemd160')
-  if (users.length > 0) {
-    user = users[0]
-
-    hashfunc.update(user.startsalt.concat(user.password, user.endsalt))
-    hash = hashfunc.digest();
-    console.log(hash)
-  }
 })
 
 app.post('/api/login', async (req, res) => {
@@ -46,6 +37,8 @@ app.post('/api/login', async (req, res) => {
     hashfunc.update(user.startsalt.concat(password, user.endsalt))
     hash = hashfunc.digest();
 
+    console.log(hash)
+    
     if (hash === token) {
       res.send("nice!")
     }
