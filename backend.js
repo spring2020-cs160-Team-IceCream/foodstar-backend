@@ -17,13 +17,22 @@ const Restaurant = require('./models/restaurant')(sequelize, DataTypes)
 const Settings = require('./models/settings')(sequelize, DataTypes)
 const Users = require('./models/users')(sequelize, DataTypes)
 
-
+// Test GET with simple retrieval of user_id 1
 app.get('/api', async (req, res) => {
   test = 1;
   const users = await Users.findAll({ where: { "user_id": test } });
   res.send(users)
 })
 
+/*
+  POST Login Authentication: 
+  1. Using ripedmd160 hash function, adds start and 
+     end salt to plaintext and sends hash to backend. 
+  2. Compare hash to stored hash value in associated with specified
+     username in database.
+    a. Authenticates user if hash values match.
+    b. Sends error status message if mismatched values.
+*/
 app.post('/api/login', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
   username = req.body.username
