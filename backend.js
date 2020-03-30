@@ -84,6 +84,7 @@ app.post('/api/post', async (req, res) => {
   //location = body.location
   // Concluding insert statement
   createPost = await Post.create(req.body)
+  res.sendStatus(200)
 })
 
 
