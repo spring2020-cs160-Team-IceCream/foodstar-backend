@@ -17,13 +17,33 @@ const Restaurant = require('./models/restaurant')(sequelize, DataTypes)
 const Settings = require('./models/settings')(sequelize, DataTypes)
 const Users = require('./models/users')(sequelize, DataTypes)
 
-
+// Test GET with simple retrieval of user_id 1
 app.get('/api', async (req, res) => {
   test = 1;
   const users = await Users.findAll({ where: { "user_id": test } });
   res.send(users)
 })
 
+/*
+   GET Homepage Content: Grab group of 10 posts for homepage
+   Question: No variable to get current location of user, needed for 
+   location-based homepage matchup.
+
+app.post('/api/login', async (req, res) => {
+  implementation here
+})
+*/
+
+
+/*
+  POST Login Authentication: 
+  1. Using ripedmd160 hash function, adds start and 
+     end salt to plaintext and sends hash to backend. 
+  2. Compare hash to stored hash value in associated with specified
+     username in database.
+    a. Authenticates user if hash values match.
+    b. Sends error status message if mismatched values.
+*/
 app.post('/api/login', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
   username = req.body.username
@@ -47,5 +67,25 @@ app.post('/api/login', async (req, res) => {
   }
   res.send(status);
 })
+
+/*
+  POST Foodstar Post Creation:
+    1. Use req.body and create function on Post model
+      a. Fields sent: Dish name, restaurant, price, description, picture
+      b. How to assign location, post ID, restaurant ID, and user ID?
+         Possibly get all values and create JSON object to insert?
+    2. Create name field for restaurant, set to 0 or 1 for default
+*/
+
+app.post('/api/post', async (req, res) => {
+  body = req.body
+  //restaurant_ID = 0
+  //user_ID = body.user_id_fk
+  //location = body.location
+  // Concluding insert statement
+  createPost = await Post.create(req.body)
+  res.sendStatus(200)
+})
+
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
