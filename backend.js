@@ -1,13 +1,15 @@
 const express = require('express')
+const crypto = require('crypto');
+const config = require('config');
+
 const app = express()
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 const port = 3000
-const crypto = require('crypto');
 
 const { Sequelize, DataTypes } = require('sequelize')
 const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
-  host: 'localhost',
+  host: config.get('Database').host,
   dialect: 'mysql'
 });
 
