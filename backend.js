@@ -13,6 +13,8 @@ const sequelize = new Sequelize('foodstar', 'dbaccess', '12345', {
   dialect: 'mysql'
 });
 
+console.log(config.get('Database').host)
+
 const Authentication = require('./models/authentication')(sequelize, DataTypes)
 const Post = require('./models/post')(sequelize, DataTypes)
 const Restaurant = require('./models/restaurant')(sequelize, DataTypes)

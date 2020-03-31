@@ -1,5 +1,5 @@
 {
     "Database": {
-        "host": "10.147.20.66"
+        "host": "localhost"
     }
 }
