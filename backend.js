@@ -40,14 +40,14 @@ app.post('/api/login', async (req, res) => {
 
 
 /*
-  POST Login Authentication: 
-  1. Using ripedmd160 hash function, adds start and 
-     end salt to plaintext and sends hash to backend. 
-  2. Compare hash to stored hash value in associated with specified
-     username in database.
-    a. Authenticates user if hash values match.
-    b. Sends error status message if mismatched values.
-*/
+ * POST Login Authentication: 
+ * 1. Using ripedmd160 hash function, adds start and 
+ *    end salt to plaintext and sends hash to backend. 
+ * 2. Compare hash to stored hash value in associated with specified
+ *    username in database.
+ *   a. Authenticates user if hash values match.
+ *   b. Sends error status message if mismatched values.
+ */
 app.post('/api/login', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
   username = req.body.username
@@ -73,15 +73,14 @@ app.post('/api/login', async (req, res) => {
 })
 
 /*
-  POST Foodstar Post Creation:
-    1. Use req.body and create function on Post model
-      a. Fields sent: Dish name, restaurant, price, description, picture
-      b. How to assign location, post ID, restaurant ID, and user ID?
-         Possibly get all values and create JSON object to insert?
-    2. Create name field for restaurant, set to 0 or 1 for default
-      a. Reformat API to specify variable names
-*/
-
+ * POST Foodstar Post Creation:
+ *  1. Use req.body and create function on Post model
+ *     a. Fields sent: Dish name, restaurant, price, description, picture
+ *     b. How to assign location, post ID, restaurant ID, and user ID?
+ *        Possibly get all values and create JSON object to insert?
+ *   2. Create name field for restaurant, set to 0 or 1 for default
+ *     a. Reformat API to specify variable names
+ */
 app.post('/api/post', async (req, res) => {
   body = req.body
   //restaurant_ID = 0
