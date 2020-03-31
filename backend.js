@@ -75,6 +75,7 @@ app.post('/api/login', async (req, res) => {
       b. How to assign location, post ID, restaurant ID, and user ID?
          Possibly get all values and create JSON object to insert?
     2. Create name field for restaurant, set to 0 or 1 for default
+      a. Reformat API to specify variable names
 */
 
 app.post('/api/post', async (req, res) => {
