@@ -73,6 +73,37 @@ app.post('/api/login', async (req, res) => {
 })
 
 /*
+ * POST Account Creation:
+ * 1. Take in user data, send to backend
+ *  a. Info provided: USERNAME, type, profile pic, description
+ *  b. Info needed: info needed 
+ * 2. Verify unique username
+ *  a. If unique, create users row then authentication row
+ *  b. If not unique, prompt user to change username and retry
+ */
+app.post('/api/create_account', async (req, res) => {
+  username = req.body.username
+  password = req.body.password
+  salt = "test"
+  createUser = await Users.create(req.body)
+  console.log("username: " + username + "\nPassword: " + password)
+  users = await Authentication.findAll({ where: { "username": username } });
+  // Check for created account
+  if (users[0] === null) {
+    console.log("Error: User account was not created")
+    res.send("Account unable to be created")
+  }
+  // Hash / salt password and create Authentication entry
+  hashfunc = crypto.createHash('ripemd160')
+  hashfunc.update(salt.concat(password, salt))
+  hash = hashfunc.digest('base64');
+  console.log("Hash = " + hash)
+  createAuth = await Authentication.create({username, hash, test, test})
+  res.sendStatus(200)
+})
+
+
+/*
  * POST Foodstar Post Creation:
  *  1. Use req.body and create function on Post model
  *     a. Fields sent: Dish name, restaurant, price, description, picture
