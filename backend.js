@@ -84,17 +84,20 @@ app.post('/api/login', async (req, res) => {
  * 3. Create Settings Table Entry
  *  a. Foreign key user_id_fk matches those found in users, authentication tables
  *  b. Default values: Theme = "Light", View = "List"
+ * 
+ * Returns JSON object with boolean value for account creation
  */
 app.post('/api/create_account', async (req, res) => {
   username = req.body.username
   password = req.body.password
   startsalt = "food"
   endsalt = "star"
+  status = {status : false}
 
   users = await Authentication.findAll({ where: { "username": username } });
   if (users[0] != null) {
     console.log("Username " + username + " already in use.")
-    res.send("Username already in use, try again with a different username")
+    res.send(status)
   }
   else {
     createUser = await Users.create(req.body)
@@ -112,8 +115,8 @@ app.post('/api/create_account', async (req, res) => {
     theme = "Light"
     view = "List"
     createSettings = await Settings.create({theme, view, user_id_fk})
-
-    res.sendStatus(200)
+    status.status = true
+    res.send(status)
   }
 })
 
