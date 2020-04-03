@@ -46,32 +46,54 @@ app.post('/api/login', async (req, res) => {
  * 2. Filter through each attribute and return the results from search
  *    a. Order: Category -> Location -> Rating -> Price
  * 
+ * ToDo:
+ * - Figure Out Default Attribute Search Logic
+ * - Figure out location settings
+ * - Test on new posts
+ * 
  * Returns Array of JSON post objects
  */
 app.post('/api/search', async (req, res) => {
   body = req.body
   results = await Post.findAll({ where: { "category": body.category } });
   console.log("By Category: " + results)
+
   // By Location
-  for (i = 0; i < results.length; i++) {
-    if (results[i].location != body.location) {
-      results[i] = null
+  if (body.location != null) {
+    for (i = 0; i < results.length; i++) {
+      if (results[i].location != body.location) {
+        results[i] = null
+      }
+      //console.log(results[i].location + "\n")
     }
-    //console.log(results[i].location + "\n")
+    results = results.filter(e => e != null);
+    console.log("By Location: " + results)
   }
-  results = results.filter(e => e != null);
-  console.log("\nBy Location: " + results)
-  /*
+  
   // By Rating
-  for (i = 0; i < results.length; i++) {
-    if (results[i].avg_self_rating <  body.avg_self_rating) {
-      results[i] = null
+  if (body.location != null) {
+    for (i = 0; i < results.length; i++) {
+      if (results[i].avg_self_rating <  body.avg_self_rating) {
+        results[i] = null
+      }
+      //console.log(results[i].avg_self_rating + "\n")
     }
-    //console.log(results[i].location + "\n")
-  }
-  posts = posts.filter(e => e != null);
-  console.log("\nBy Rating: " + results)
-  */
+    results = results.filter(e => e != null);
+    console.log("By Rating: " + results)
+  } 
+
+  // By Price
+  if (body.price != null) {
+    for (i = 0; i < results.length; i++) {
+      if (results[i].price > body.price) {
+        results[i] = null
+      }
+      //console.log(results[i].price + "\n")
+    }
+    results = results.filter(e => e != null);
+    console.log("By Price: " + results)
+  } 
+  
   res.send(results)
 })
 
