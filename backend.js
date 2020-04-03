@@ -40,6 +40,42 @@ app.post('/api/login', async (req, res) => {
 
 
 /*
+ * GET Search:
+ * 1. Use req.body to filter out search results
+ *    a. Fields sent: category, price, location, avg_self_rating
+ * 2. Filter through each attribute and return the results from search
+ *    a. Order: Category -> Location -> Rating -> Price
+ * 
+ * Returns Array of JSON post objects
+ */
+app.post('/api/search', async (req, res) => {
+  body = req.body
+  results = await Post.findAll({ where: { "category": body.category } });
+  console.log("By Category: " + results)
+  // By Location
+  for (i = 0; i < results.length; i++) {
+    if (results[i].location != body.location) {
+      results[i] = null
+    }
+    //console.log(results[i].location + "\n")
+  }
+  results = results.filter(e => e != null);
+  console.log("\nBy Location: " + results)
+  /*
+  // By Rating
+  for (i = 0; i < results.length; i++) {
+    if (results[i].avg_self_rating <  body.avg_self_rating) {
+      results[i] = null
+    }
+    //console.log(results[i].location + "\n")
+  }
+  posts = posts.filter(e => e != null);
+  console.log("\nBy Rating: " + results)
+  */
+  res.send(results)
+})
+
+/*
  * POST Login Authentication: 
  * 1. Using ripedmd160 hash function, adds start and 
  *    end salt to plaintext and sends hash to backend. 
@@ -139,6 +175,5 @@ app.post('/api/post', async (req, res) => {
   createPost = await Post.create(req.body)
   res.sendStatus(200)
 })
-
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
