@@ -93,6 +93,7 @@ app.post('/api/create_account', async (req, res) => {
   }
   else {
     createUser = await Users.create(req.body)
+    user_id = createUser.user_id
     console.log("username: " + username + "\nPassword: " + password)
     // Hash / salt password and create Authentication entry
     // Problem: How to get user_id for users table
