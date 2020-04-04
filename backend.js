@@ -1,10 +1,12 @@
 const express = require('express')
 const crypto = require('crypto');
 const config = require('config');
+var cors = require('cors');
 
 const app = express()
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cors()) // allow cross-origin requests for local frontend development
 const port = 3000
 
 const { Sequelize, DataTypes } = require('sequelize')
