@@ -122,6 +122,32 @@ app.post('/api/create_account', async (req, res) => {
   }
 })
 
+/*
+ *  DELETE Account Deletion (assumes user already signed in):
+ *  1. Delete posts created by user in posts table using user_id
+ *    a. Fields Sent: user_id
+ *  2. Using user_id, delete from users, authentication, and settings tables
+ *    b. Deletion order: Settings -> Authentication -> users
+ * 
+ * Returns JSON object with boolean value for account deletion
+ */
+app.delete('/api/delete_account', async (req, res) => {
+  id = req.body.user_id
+  status = {status : false}
+  deletePosts = await Post.destroy({where: { user_id_fk: id} });
+  deleteSettings = await Settings.destroy({where: { user_id_fk: id} });
+  deleteAuth = await Authentication.destroy({where: { user_id_fk: id} });
+  deleteUser = await Users.destroy({where: { user_id: id} });
+  console.log(deletePosts + " Posts Deleted,\n" + deleteSettings
+               + " Settings Deleted,\n" + deleteUser + " Users deleted.")
+  // Since User cannot be deleted without authentication and settings removed,
+  // only need to check on the deleted user.
+  if (deleteUser == 1) {
+    status.status = true
+  }
+  res.send(status)
+})
+
 
 /*
  * POST Foodstar Post Creation:
