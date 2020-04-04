@@ -122,6 +122,52 @@ app.post('/api/create_account', async (req, res) => {
   }
 })
 
+/*
+ *  DELETE Account Deletion (assumes user already signed in):
+ *  1. Authenticate user before deleting account
+ *    a. Fields Sent: user_id, username, password
+ *    b. Must meet following conditions to proceed:
+ *      1. Hashed / Salted Password that of the database
+ *      2. Account retrieved matches that of the user_id indicated
+ *  2. Delete posts created by user in posts table using user_id
+ *    a. Fields Sent: user_id, username, password
+ *  3. Using user_id, delete from users, authentication, and settings tables
+ *    b. Deletion order: Settings -> Authentication -> users
+ * 
+ * Returns JSON object with boolean value for account deletion
+ */
+app.delete('/api/delete_account', async (req, res) => {
+  hashfunc = crypto.createHash('ripemd160')
+  username = req.body.username
+  password = req.body.password
+  id = req.body.user_id
+  status = {status : false}
+
+  // Authenticate User Before deleting account
+  users = await Authentication.findAll({ where: { "username": username } });
+  if (users.length != 0) {
+    user = users[0]
+    token = user.password
+
+    hashfunc.update(user.startsalt.concat(password, user.endsalt))
+    hash = hashfunc.digest('base64');
+    if (hash == token && user.user_id_fk == id) {  
+      deletePosts = await Post.destroy({where: { user_id_fk: id} });
+      deleteSettings = await Settings.destroy({where: { user_id_fk: id} });
+      deleteAuth = await Authentication.destroy({where: { user_id_fk: id} });
+      deleteUser = await Users.destroy({where: { user_id: id} });
+      console.log(deletePosts + " Posts Deleted,\n" + deleteSettings
+                  + " Settings Deleted,\n" + deleteUser + " Users deleted.")
+      // Since User cannot be deleted without authentication and settings removed,
+      // only need to check on the deleted user.
+      if (deleteUser == 1) {
+        status.status = true
+      }
+    }
+  }
+  res.send(status)
+})
+
 
 /*
  * POST Foodstar Post Creation:
