@@ -145,6 +145,9 @@ app.post('/api/login', async (req, res) => {
  *  a. Foreign key user_id_fk matches those found in users, authentication tables
  *  b. Default values: Theme = "Light", View = "List"
  * 
+ * ToDo: 
+ * - Implement security features on username and password limits to test
+ *
  * Returns JSON object with boolean value for account creation
  */
 app.post('/api/create_account', async (req, res) => {
