@@ -105,15 +105,14 @@ app.post('/api/search', async (req, res) => {
  *    end salt to plaintext and sends hash to backend. 
  * 2. Compare hash to stored hash value in associated with specified
  *    username in database.
- *   a. Authenticates user if hash values match.
- *   b. Sends error status message if mismatched values.
+ *   a. Authenticates user if hash values match with JSON boolean.
  */
 app.post('/api/login', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
   username = req.body.username
   password = req.body.password
 
-  status = {status: "f"}
+  status = {status: false}
 
   users = await Authentication.findAll({ where: { "username": username } });
   if (users.length > 0) {
@@ -126,7 +125,7 @@ app.post('/api/login', async (req, res) => {
     console.log(hash)
     
     if (hash === token) {
-      status.status = "nice!"
+      status.status = true
     }
   }
   res.send(status);
@@ -144,22 +143,19 @@ app.post('/api/login', async (req, res) => {
  * 3. Create Settings Table Entry
  *  a. Foreign key user_id_fk matches those found in users, authentication tables
  *  b. Default values: Theme = "Light", View = "List"
- * 
- * ToDo: 
- * - Implement security features on username and password limits to test
  *
- * Returns JSON object with boolean value for account creation
+ * Returns JSON object with String status for account creation
  */
 app.post('/api/create_account', async (req, res) => {
   username = req.body.username
   password = req.body.password
   startsalt = "food"
   endsalt = "star"
-  status = {status : false}
+  status = {status : "Error Creating Account."}
 
   users = await Authentication.findAll({ where: { "username": username } });
-  if (users[0] != null) {
-    console.log("Username " + username + " already in use.")
+  if (users[0] != null || username.length > 20 || password.length > 40) {
+    console.log("Issue creating account with username and password.")
     res.send(status)
   }
   else {
@@ -178,7 +174,7 @@ app.post('/api/create_account', async (req, res) => {
     theme = "Light"
     view = "List"
     createSettings = await Settings.create({theme, view, user_id_fk})
-    status.status = true
+    status.status = "Account Successfully Created!"
     res.send(status)
   }
 })
