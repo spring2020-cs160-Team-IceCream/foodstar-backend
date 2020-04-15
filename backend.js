@@ -143,6 +143,8 @@ app.post('/api/login', async (req, res) => {
  * 3. Create Settings Table Entry
  *  a. Foreign key user_id_fk matches those found in users, authentication tables
  *  b. Default values: Theme = "Light", View = "List"
+ * 
+ * ToDo: Implement Email into account creation
  *
  * Returns JSON object with String status for account creation
  */
@@ -152,31 +154,31 @@ app.post('/api/create_account', async (req, res) => {
   startsalt = "food"
   endsalt = "star"
   status = {status : "Error Creating Account."}
+  if (username != null && username !== "" && password != null && password !== "") { 
+    users = await Authentication.findAll({ where: { "username": username } });
+    if (users[0] != null || username.length > 20 || password.length > 40) {
+      console.log("Issue creating account with username and password.")
+    }
+    else {
+      createUser = await Users.create(req.body)
+      user_id_fk = createUser.user_id
+      //console.log("username: " + username + "\nPassword: " + password)
 
-  users = await Authentication.findAll({ where: { "username": username } });
-  if (users[0] != null || username.length > 20 || password.length > 40) {
-    console.log("Issue creating account with username and password.")
-    res.send(status)
+      // Hash / salt password and create Authentication entry
+      hashfunc = crypto.createHash('ripemd160')
+      hashfunc.update(startsalt.concat(password, endsalt))
+      password = hashfunc.digest('base64');
+      //console.log("Hash = " + password)
+      createAuth = await Authentication.create({username, password, startsalt, endsalt, user_id_fk})
+
+      //Create Settings Entry
+      theme = "Light"
+      view = "List"
+      createSettings = await Settings.create({theme, view, user_id_fk})
+      status.status = "Account Successfully Created!"
+    }
   }
-  else {
-    createUser = await Users.create(req.body)
-    user_id_fk = createUser.user_id
-    //console.log("username: " + username + "\nPassword: " + password)
-
-    // Hash / salt password and create Authentication entry
-    hashfunc = crypto.createHash('ripemd160')
-    hashfunc.update(startsalt.concat(password, endsalt))
-    password = hashfunc.digest('base64');
-    //console.log("Hash = " + password)
-    createAuth = await Authentication.create({username, password, startsalt, endsalt, user_id_fk})
-
-    //Create Settings Entry
-    theme = "Light"
-    view = "List"
-    createSettings = await Settings.create({theme, view, user_id_fk})
-    status.status = "Account Successfully Created!"
-    res.send(status)
-  }
+  res.send(status)
 })
 
 /*
