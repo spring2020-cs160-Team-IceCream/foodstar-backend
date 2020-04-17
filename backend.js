@@ -134,7 +134,7 @@ app.post('/api/login', async (req, res) => {
 /*
  * POST Account Creation:
  * 1. Take in user data, send to backend
- *  a. Info provided: username, password, type, profile_pic, description
+ *  a. Info provided: username, password, email, type, profile_pic, description
  *  b. Check if username unique, send error if duplicate
  * 2. Create Users Table Entry
  *  a. Create salted / hash of password, input to new authentication entry
@@ -188,7 +188,6 @@ app.post('/api/create_account', async (req, res) => {
  *    a. Fields Sent: username, password
  *    b. Must meet following conditions to proceed:
  *      1. Hashed / Salted Password that of the database
- *      2. Account retrieved matches that of the user_id indicated
  *  2. Delete posts created by user in posts table using user_id
  *    a. Fields Sent: user_id, username, password
  *  3. Using user_id, delete from users, authentication, and settings tables
