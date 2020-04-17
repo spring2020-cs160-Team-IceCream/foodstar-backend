@@ -151,12 +151,13 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/create_account', async (req, res) => {
   username = req.body.username
   password = req.body.password
+  email = req.body.email
   startsalt = "food"
   endsalt = "star"
   status = {status : "Error Creating Account."}
-  if (username != null && username !== "" && password != null && password !== "") { 
+  if (username && password && email) { 
     users = await Authentication.findAll({ where: { "username": username } });
-    if (users[0] != null || username.length > 20 || password.length > 40) {
+    if (users[0] != null || username.length > 20 || password.length > 40 || email.length > 30) {
       console.log("Issue creating account with username and password.")
     }
     else {
@@ -184,7 +185,7 @@ app.post('/api/create_account', async (req, res) => {
 /*
  *  DELETE Account Deletion (assumes user already signed in):
  *  1. Authenticate user before deleting account
- *    a. Fields Sent: user_id, username, password
+ *    a. Fields Sent: username, password
  *    b. Must meet following conditions to proceed:
  *      1. Hashed / Salted Password that of the database
  *      2. Account retrieved matches that of the user_id indicated
@@ -199,18 +200,18 @@ app.delete('/api/delete_account', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
   username = req.body.username
   password = req.body.password
-  id = req.body.user_id
   status = {status : false}
 
   // Authenticate User Before deleting account
   users = await Authentication.findAll({ where: { "username": username } });
-  if (users.length != 0) {
+  if (users.length != 0 && username && password) {
     user = users[0]
     token = user.password
+    id = user.user_id_fk
 
     hashfunc.update(user.startsalt.concat(password, user.endsalt))
     hash = hashfunc.digest('base64');
-    if (hash == token && user.user_id_fk == id) {  
+    if (hash == token) {  
       deletePosts = await Post.destroy({where: { user_id_fk: id} });
       deleteSettings = await Settings.destroy({where: { user_id_fk: id} });
       deleteAuth = await Authentication.destroy({where: { user_id_fk: id} });
