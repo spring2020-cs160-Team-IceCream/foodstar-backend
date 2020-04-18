@@ -115,7 +115,7 @@ app.post('/api/login', async (req, res) => {
   status = {status: false}
 
   users = await Authentication.findAll({ where: { "username": username } });
-  if (users.length > 0) {
+  if (users.length > 0 && username && password) {
     user = users[0]
     token = user.password
 
@@ -202,25 +202,27 @@ app.delete('/api/delete_account', async (req, res) => {
   status = {status : false}
 
   // Authenticate User Before deleting account
-  users = await Authentication.findAll({ where: { "username": username } });
-  if (users.length != 0 && username && password) {
-    user = users[0]
-    token = user.password
-    id = user.user_id_fk
+  if (username && password) {
+    users = await Authentication.findAll({ where: { "username": username } });
+    if (users.length != 0) {
+      user = users[0]
+      token = user.password
+      id = user.user_id_fk
 
-    hashfunc.update(user.startsalt.concat(password, user.endsalt))
-    hash = hashfunc.digest('base64');
-    if (hash == token) {  
-      deletePosts = await Post.destroy({where: { user_id_fk: id} });
-      deleteSettings = await Settings.destroy({where: { user_id_fk: id} });
-      deleteAuth = await Authentication.destroy({where: { user_id_fk: id} });
-      deleteUser = await Users.destroy({where: { user_id: id} });
-      console.log(deletePosts + " Posts Deleted,\n" + deleteSettings
-                  + " Settings Deleted,\n" + deleteUser + " Users deleted.")
-      // Since User cannot be deleted without authentication and settings removed,
-      // only need to check on the deleted user.
-      if (deleteUser == 1) {
-        status.status = true
+      hashfunc.update(user.startsalt.concat(password, user.endsalt))
+      hash = hashfunc.digest('base64');
+      if (hash == token) {  
+        deletePosts = await Post.destroy({where: { user_id_fk: id} });
+        deleteSettings = await Settings.destroy({where: { user_id_fk: id} });
+        deleteAuth = await Authentication.destroy({where: { user_id_fk: id} });
+        deleteUser = await Users.destroy({where: { user_id: id} });
+        console.log(deletePosts + " Posts Deleted,\n" + deleteSettings
+                    + " Settings Deleted,\n" + deleteUser + " Users deleted.")
+        // Since User cannot be deleted without authentication and settings removed,
+        // only need to check on the deleted user.
+        if (deleteUser == 1) {
+          status.status = true
+        }
       }
     }
   }
