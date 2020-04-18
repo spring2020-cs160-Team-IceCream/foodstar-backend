@@ -1,0 +1,971 @@
+{
+	"info": {
+		"_postman_id": "57980585-c1da-49be-bef8-c66256ebaeba",
+		"name": "Login Creation / Verification",
+		"description": "Testing the Login Creation and Verification Calls. Important cases to check:\n\n1. Long passwords\n2. Empty passwords\n3. empty username\n4. long username",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "NapoBonaparte Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e75a7b8-a2ca-4721-bafb-9b296e904946",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"NapoBonaparte\",\n    \"password\": \"frenchguy1\",\n    \"email\" : \"iDontHaveAnEmail@gmail.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"frenchguy1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "POST Account Creation:\n 1. Take in user data, send to backend\n   a. Info provided: username, password, type, profile_pic, description\n   b. Check if username unique, send error if duplicate\n 2. Create Users Table Entry\n   a. Create salted / hash of password, input to new authentication entry\n   b. Connect user_id_fk value with user_id found in settings table\n   c. Default values: startsalt = food, endsalt = star\n 3. Create Settings Table Entry\n   a. Foreign key user_id_fk matches those found in users, authentication tables\n   b. Default values: Theme = \"Light\", View = \"List\"\n  \n  Returns JSON object with boolean value for account creation."
+			},
+			"response": []
+		},
+		{
+			"name": "Long Username Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"ThisIsAReallyLongUsername\",\n    \"password\": \"longUsername\",\n    \"email\" : \"longuser@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"longUsername\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong Password Account Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cee66117-e52b-48fa-8dc1-04b4b5b24640",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Deletion Unsuccessful (Incorrect Password)\", function () {",
+							"    pm.response.to.have.body({\"status\":false});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"NapoBonaparte\",\n    \"password\": \"frenchguy2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		},
+		{
+			"name": "Null Username Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": null,\n    \"password\": \"NoUsername\",\n    \"email\" : \"nulluser@sjsu.edu\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"null\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "BillyJean Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e75a7b8-a2ca-4721-bafb-9b296e904946",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"BillyJean\",\n    \"password\": \"bobb23\",\n    \"email\" : \"BillyJean@gmail.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"bobb23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "POST Account Creation:\n 1. Take in user data, send to backend\n   a. Info provided: username, password, type, profile_pic, description\n   b. Check if username unique, send error if duplicate\n 2. Create Users Table Entry\n   a. Create salted / hash of password, input to new authentication entry\n   b. Connect user_id_fk value with user_id found in settings table\n   c. Default values: startsalt = food, endsalt = star\n 3. Create Settings Table Entry\n   a. Foreign key user_id_fk matches those found in users, authentication tables\n   b. Default values: Theme = \"Light\", View = \"List\"\n  \n  Returns JSON object with boolean value for account creation."
+			},
+			"response": []
+		},
+		{
+			"name": "Long Email Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"LongEmail\",\n    \"password\": \"emailIsLong\",\n    \"email\" : \"longerEmailThanUsua12345l@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"longUsername\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "BillyJean Valid Login Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef238a6c-bf99-4052-9027-66db1af81402",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Login Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":true});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"BillyJean\",\n\t\"password\" : \"bobb23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "POST Login Authentication: \n 1. Using ripedmd160 hash function, adds start and \n    end salt to plaintext and sends hash to backend. \n 2. Compare hash to stored hash value in associated with specified username in database.\n   a. Authenticates user if hash values match.\n   b. Sends error status message if mismatched values."
+			},
+			"response": []
+		},
+		{
+			"name": "Long Email Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"longEmail\",\n    \"password\": \"longUsername\",\n    \"email\" : \"thisEmailIsLongerThanUsual@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"longUsername\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "HelloWorld Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e75a7b8-a2ca-4721-bafb-9b296e904946",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"HelloWorld\",\n    \"password\": \"HelloWorld!\",\n    \"email\" : \"hello.world@hotmail.com\",\n    \"type\": \"Owner\",\n    \"profile_pic\": null,\n    \"description\": \"HelloWorld!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "POST Account Creation:\n 1. Take in user data, send to backend\n   a. Info provided: username, password, type, profile_pic, description\n   b. Check if username unique, send error if duplicate\n 2. Create Users Table Entry\n   a. Create salted / hash of password, input to new authentication entry\n   b. Connect user_id_fk value with user_id found in settings table\n   c. Default values: startsalt = food, endsalt = star\n 3. Create Settings Table Entry\n   a. Foreign key user_id_fk matches those found in users, authentication tables\n   b. Default values: Theme = \"Light\", View = \"List\"\n  \n  Returns JSON object with boolean value for account creation."
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong Username Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f28e39f1-992a-4ca0-ae0f-45cf3e2219d2",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Unsuccessdul Deletion (No user exists)\", function () {",
+							"    pm.response.to.have.body({\"status\":false});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"MichaelJackson\",\n\t\"password\" : \"bobb23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		},
+		{
+			"name": "Null Password Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"NoPassword\",\n    \"password\": null,\n    \"email\" : \"nullpassword@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"null\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "BillyJean Invalid Login Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef238a6c-bf99-4052-9027-66db1af81402",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Login Unsuccessful due to Spelling Error\", function () {",
+							"    pm.response.to.have.body({\"status\":false});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"BillyJean\",\n\t\"password\" : \"bobb23 !\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "POST Login Authentication: \n 1. Using ripedmd160 hash function, adds start and \n    end salt to plaintext and sends hash to backend. \n 2. Compare hash to stored hash value in associated with specified username in database.\n   a. Authenticates user if hash values match.\n   b. Sends error status message if mismatched values."
+			},
+			"response": []
+		},
+		{
+			"name": "HelloWorld Valid Login Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef238a6c-bf99-4052-9027-66db1af81402",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Login Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":true});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"HelloWorld\",\n    \"password\": \"HelloWorld!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "POST Login Authentication: \n 1. Using ripedmd160 hash function, adds start and \n    end salt to plaintext and sends hash to backend. \n 2. Compare hash to stored hash value in associated with specified username in database.\n   a. Authenticates user if hash values match.\n   b. Sends error status message if mismatched values."
+			},
+			"response": []
+		},
+		{
+			"name": "Long Password Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5dc5edc2-0d88-4436-988a-3ab3c5a61560",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"LongPassword\",\n    \"password\": \"ThisWillBeAnExtremelyLongPasswordThatWillNotWork\",\n    \"email\" : \"longpassword@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"ThisWillBeAnExtremelyLongPasswordThatWillNotWork\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Passwords can only be up to 40 characters long."
+			},
+			"response": []
+		},
+		{
+			"name": "Empty Field Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "62cb6ec6-7442-43d5-bd60-66f634d7a8fa",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Unsuccessful Deletion (No user specified)\", function () {",
+							"    pm.response.to.have.body({\"status\":false});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"\",\n    \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		},
+		{
+			"name": "Null Email Account Creation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da534381-2337-41e4-8cf2-893a035af124",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"emptyEmail\",\n    \"password\": \"emptyEmail\",\n    \"email\" : \"\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"empty\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "Usernames can only be a max of 20 characters"
+			},
+			"response": []
+		},
+		{
+			"name": "BillyJean Creation Duplicate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e75a7b8-a2ca-4721-bafb-9b296e904946",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Return Account Creation Error (Duplicate)\", function () {",
+							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"BillyJean\",\n    \"password\": \"bobb23\",\n    \"email\" : \"BillyJean@gmail.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"bobb23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/create_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"create_account"
+					]
+				},
+				"description": "POST Account Creation:\n 1. Take in user data, send to backend\n   a. Info provided: username, password, type, profile_pic, description\n   b. Check if username unique, send error if duplicate\n 2. Create Users Table Entry\n   a. Create salted / hash of password, input to new authentication entry\n   b. Connect user_id_fk value with user_id found in settings table\n   c. Default values: startsalt = food, endsalt = star\n 3. Create Settings Table Entry\n   a. Foreign key user_id_fk matches those found in users, authentication tables\n   b. Default values: Theme = \"Light\", View = \"List\"\n  \n  Returns JSON object with boolean value for account creation."
+			},
+			"response": []
+		},
+		{
+			"name": "NapoBonaparte Account Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cee66117-e52b-48fa-8dc1-04b4b5b24640",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"NapoBonaparte Account Deletion Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":true});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"NapoBonaparte\",\n    \"password\": \"frenchguy1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		},
+		{
+			"name": "HelloWorld Account Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "62cb6ec6-7442-43d5-bd60-66f634d7a8fa",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"HelloWorld Account Deletion Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":true});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"HelloWorld\",\n    \"password\": \"HelloWorld!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		},
+		{
+			"name": "BillyJean Account Deletion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f28e39f1-992a-4ca0-ae0f-45cf3e2219d2",
+						"exec": [
+							"pm.test(\"JSON Object Return Type\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"BillyJean Account Deletion Successful\", function () {",
+							"    pm.response.to.have.body({\"status\":true});",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"BillyJean\",\n\t\"password\" : \"bobb23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/delete_account",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"delete_account"
+					]
+				},
+				"description": "DELETE Account Deletion (assumes user already signed in):\n  1. Authenticate user before deleting account\n    a. Fields Sent: user_id, username, password\n    b. Must meet following conditions to proceed:\n      1. Hashed / Salted Password that of the database\n      2. Account retrieved matches that of the user_id indicated\n  2. Delete posts created by user in posts table using user_id\n    a. Fields Sent: user_id, username, password\n  3. Using user_id, delete from users, authentication, and settings tables\n    b. Deletion order: Settings -> Authentication -> users\n\n * Returns JSON object with boolean value for account deletion"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
