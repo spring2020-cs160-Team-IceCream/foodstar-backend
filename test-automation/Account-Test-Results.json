@@ -1,18 +1,18 @@
 {
-	"id": "ad476495-9d5b-4fc3-8bba-93f6baefdb99",
+	"id": "c70f0593-b109-4dbe-bac0-6c51e9a4e674",
 	"name": "Login Creation / Verification",
-	"timestamp": "2020-04-19T16:56:07.902Z",
+	"timestamp": "2020-04-19T17:42:04.257Z",
 	"collection_id": "57980585-c1da-49be-bef8-c66256ebaeba",
 	"folder_id": 0,
 	"environment_id": "0",
-	"totalPass": 40,
+	"totalPass": 38,
 	"totalFail": 0,
 	"results": [
 		{
 			"id": "e6c71f7c-84da-4b1e-b47f-cd4601264d06",
 			"name": "NapoBonaparte Account Creation",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 557,
+			"time": 482,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -32,7 +32,7 @@
 				}
 			},
 			"times": [
-				557
+				482
 			],
 			"allTests": [
 				{
@@ -45,7 +45,7 @@
 			"id": "b7a98ef5-6b9d-47e3-bb7a-a1292e12cb3f",
 			"name": "Long Username Creation",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 52,
+			"time": 49,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -65,7 +65,7 @@
 				}
 			},
 			"times": [
-				52
+				49
 			],
 			"allTests": [
 				{
@@ -78,7 +78,7 @@
 			"id": "e8a115a6-5e95-4635-afea-6b29a7c53ab0",
 			"name": "Wrong Password Account Deletion",
 			"url": "http://localhost:3000/api/delete_account",
-			"time": 50,
+			"time": 27,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -98,7 +98,7 @@
 				}
 			},
 			"times": [
-				50
+				27
 			],
 			"allTests": [
 				{
@@ -144,7 +144,7 @@
 			"id": "7107aa56-e76d-44cb-948c-8ec1ce3b50ce",
 			"name": "BillyJean Account Creation",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 249,
+			"time": 148,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -164,45 +164,12 @@
 				}
 			},
 			"times": [
-				249
+				148
 			],
 			"allTests": [
 				{
 					"JSON Object Return Type": true,
 					"Return Account Creation Successful": true
-				}
-			]
-		},
-		{
-			"id": "508a88f0-be2f-4f42-b450-0b7bc98741cc",
-			"name": "Long Email Creation",
-			"url": "http://localhost:3000/api/create_account",
-			"time": 48,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Return Account Creation Error": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Return Account Creation Error": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				48
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Return Account Creation Error": true
 				}
 			]
 		},
@@ -243,7 +210,7 @@
 			"id": "219b82a7-3f2f-4e49-9a9c-5f71d6710b7a",
 			"name": "Long Email Account Creation",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 29,
+			"time": 40,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -263,7 +230,7 @@
 				}
 			},
 			"times": [
-				29
+				40
 			],
 			"allTests": [
 				{
@@ -276,7 +243,7 @@
 			"id": "26aaea82-19a7-42f7-a5ef-3a0aa1edced5",
 			"name": "HelloWorld Account Creation",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 174,
+			"time": 113,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -296,7 +263,7 @@
 				}
 			},
 			"times": [
-				174
+				113
 			],
 			"allTests": [
 				{
@@ -309,7 +276,7 @@
 			"id": "1181c290-66fc-4e83-9333-7ad1b7b45234",
 			"name": "Wrong Username Deletion",
 			"url": "http://localhost:3000/api/delete_account",
-			"time": 28,
+			"time": 29,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -329,7 +296,7 @@
 				}
 			},
 			"times": [
-				28
+				29
 			],
 			"allTests": [
 				{
@@ -341,171 +308,6 @@
 		{
 			"id": "d33b5277-05fa-4ef6-a57b-0e961a187ec9",
 			"name": "Null Password Account Creation",
-			"url": "http://localhost:3000/api/create_account",
-			"time": 3,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Return Account Creation Error": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Return Account Creation Error": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				3
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Return Account Creation Error": true
-				}
-			]
-		},
-		{
-			"id": "1da9dff8-8088-49f1-aaf3-22a3aa067ab8",
-			"name": "BillyJean Invalid Login Authentication",
-			"url": "http://localhost:3000/api/login",
-			"time": 39,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Login Unsuccessful due to Spelling Error": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Login Unsuccessful due to Spelling Error": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				39
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Login Unsuccessful due to Spelling Error": true
-				}
-			]
-		},
-		{
-			"id": "549bc8e8-23af-4d28-a9b2-4d9492f80a0e",
-			"name": "HelloWorld Valid Login Authentication",
-			"url": "http://localhost:3000/api/login",
-			"time": 23,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Login Successful": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Login Successful": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				23
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Login Successful": true
-				}
-			]
-		},
-		{
-			"id": "5f897cf3-ac9a-47db-964a-a7b9b232c02a",
-			"name": "Long Password Creation",
-			"url": "http://localhost:3000/api/create_account",
-			"time": 28,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Return Account Creation Error": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Return Account Creation Error": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				28
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Return Account Creation Error": true
-				}
-			]
-		},
-		{
-			"id": "5e1cc69e-6c1f-4bbc-9835-fe38caf1ddce",
-			"name": "Empty Field Deletion",
-			"url": "http://localhost:3000/api/delete_account",
-			"time": 5,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"JSON Object Return Type": true,
-				"Unsuccessful Deletion (No user specified)": true
-			},
-			"testPassFailCounts": {
-				"JSON Object Return Type": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Unsuccessful Deletion (No user specified)": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				5
-			],
-			"allTests": [
-				{
-					"JSON Object Return Type": true,
-					"Unsuccessful Deletion (No user specified)": true
-				}
-			]
-		},
-		{
-			"id": "b6033f0a-3d19-42c2-ab86-b183bda8b77e",
-			"name": "Null Email Account Creation",
 			"url": "http://localhost:3000/api/create_account",
 			"time": 2,
 			"responseCode": {
@@ -537,10 +339,175 @@
 			]
 		},
 		{
+			"id": "1da9dff8-8088-49f1-aaf3-22a3aa067ab8",
+			"name": "BillyJean Invalid Login Authentication",
+			"url": "http://localhost:3000/api/login",
+			"time": 23,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"JSON Object Return Type": true,
+				"Login Unsuccessful due to Spelling Error": true
+			},
+			"testPassFailCounts": {
+				"JSON Object Return Type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login Unsuccessful due to Spelling Error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"JSON Object Return Type": true,
+					"Login Unsuccessful due to Spelling Error": true
+				}
+			]
+		},
+		{
+			"id": "549bc8e8-23af-4d28-a9b2-4d9492f80a0e",
+			"name": "HelloWorld Valid Login Authentication",
+			"url": "http://localhost:3000/api/login",
+			"time": 25,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"JSON Object Return Type": true,
+				"Login Successful": true
+			},
+			"testPassFailCounts": {
+				"JSON Object Return Type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login Successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				25
+			],
+			"allTests": [
+				{
+					"JSON Object Return Type": true,
+					"Login Successful": true
+				}
+			]
+		},
+		{
+			"id": "5f897cf3-ac9a-47db-964a-a7b9b232c02a",
+			"name": "Long Password Creation",
+			"url": "http://localhost:3000/api/create_account",
+			"time": 26,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"JSON Object Return Type": true,
+				"Return Account Creation Error": true
+			},
+			"testPassFailCounts": {
+				"JSON Object Return Type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Return Account Creation Error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"JSON Object Return Type": true,
+					"Return Account Creation Error": true
+				}
+			]
+		},
+		{
+			"id": "5e1cc69e-6c1f-4bbc-9835-fe38caf1ddce",
+			"name": "Empty Field Deletion",
+			"url": "http://localhost:3000/api/delete_account",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"JSON Object Return Type": true,
+				"Unsuccessful Deletion (No user specified)": true
+			},
+			"testPassFailCounts": {
+				"JSON Object Return Type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Unsuccessful Deletion (No user specified)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"JSON Object Return Type": true,
+					"Unsuccessful Deletion (No user specified)": true
+				}
+			]
+		},
+		{
+			"id": "b6033f0a-3d19-42c2-ab86-b183bda8b77e",
+			"name": "Null Email Account Creation",
+			"url": "http://localhost:3000/api/create_account",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"JSON Object Return Type": true,
+				"Return Account Creation Error": true
+			},
+			"testPassFailCounts": {
+				"JSON Object Return Type": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Return Account Creation Error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"JSON Object Return Type": true,
+					"Return Account Creation Error": true
+				}
+			]
+		},
+		{
 			"id": "851e642c-d994-4ee2-abd1-27e0589d7dd1",
 			"name": "BillyJean Creation Duplicate",
 			"url": "http://localhost:3000/api/create_account",
-			"time": 29,
+			"time": 26,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -560,7 +527,7 @@
 				}
 			},
 			"times": [
-				29
+				26
 			],
 			"allTests": [
 				{
@@ -606,7 +573,7 @@
 			"id": "2bce5bfc-ed16-4160-84d3-8c76c5609f36",
 			"name": "HelloWorld Account Deletion",
 			"url": "http://localhost:3000/api/delete_account",
-			"time": 132,
+			"time": 159,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -626,7 +593,7 @@
 				}
 			},
 			"times": [
-				132
+				159
 			],
 			"allTests": [
 				{
@@ -639,7 +606,7 @@
 			"id": "b718a28e-78f9-464f-a55c-094ad435e496",
 			"name": "BillyJean Account Deletion",
 			"url": "http://localhost:3000/api/delete_account",
-			"time": 128,
+			"time": 134,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -659,7 +626,7 @@
 				}
 			},
 			"times": [
-				128
+				134
 			],
 			"allTests": [
 				{
@@ -670,7 +637,7 @@
 		}
 	],
 	"count": 1,
-	"totalTime": 1736,
+	"totalTime": 1448,
 	"collection": {
 		"requests": [
 			{
@@ -691,10 +658,6 @@
 			},
 			{
 				"id": "7107aa56-e76d-44cb-948c-8ec1ce3b50ce",
-				"method": "POST"
-			},
-			{
-				"id": "508a88f0-be2f-4f42-b450-0b7bc98741cc",
 				"method": "POST"
 			},
 			{

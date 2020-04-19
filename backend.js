@@ -154,7 +154,7 @@ app.post('/api/create_account', async (req, res) => {
   email = req.body.email
   startsalt = "food"
   endsalt = "star"
-  status = {status : false}
+  result = {msg : "Error Creating Account.", status : false}
   if (username && password && email) { 
     users = await Authentication.findAll({ where: { "username": username } });
     if (users[0] != null || username.length > 20 || password.length > 40 || email.length > 30) {
@@ -176,10 +176,11 @@ app.post('/api/create_account', async (req, res) => {
       theme = "Light"
       view = "List"
       createSettings = await Settings.create({theme, view, user_id_fk})
-      status.status = true
+      result.status = true
+      result.msg = "Account Successfully Created!"
     }
   }
-  res.send(status)
+  res.send(result)
 })
 
 /*

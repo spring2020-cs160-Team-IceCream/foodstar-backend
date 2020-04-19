@@ -19,7 +19,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\": true});",
+							"    pm.response.to.have.body({\"msg\" : \"Account Successfully Created!\", \"status\": true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -67,7 +67,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -163,7 +163,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -211,7 +211,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\":true});",
+							"    pm.response.to.have.body({\"msg\" : \"Account Successfully Created!\", \"status\": true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -243,54 +243,6 @@
 					]
 				},
 				"description": "POST Account Creation:\n 1. Take in user data, send to backend\n   a. Info provided: username, password, type, profile_pic, description\n   b. Check if username unique, send error if duplicate\n 2. Create Users Table Entry\n   a. Create salted / hash of password, input to new authentication entry\n   b. Connect user_id_fk value with user_id found in settings table\n   c. Default values: startsalt = food, endsalt = star\n 3. Create Settings Table Entry\n   a. Foreign key user_id_fk matches those found in users, authentication tables\n   b. Default values: Theme = \"Light\", View = \"List\"\n  \n  Returns JSON object with boolean value for account creation."
-			},
-			"response": []
-		},
-		{
-			"name": "Long Email Creation",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "da534381-2337-41e4-8cf2-893a035af124",
-						"exec": [
-							"pm.test(\"JSON Object Return Type\", function () {",
-							"    pm.response.to.be.json;",
-							"});",
-							"",
-							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"LongEmail\",\n    \"password\": \"emailIsLong\",\n    \"email\" : \"longerEmailThanUsua12345l@yahoo.com\",\n    \"type\": \"casual\",\n    \"profile_pic\": null,\n    \"description\": \"longUsername\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/api/create_account",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"create_account"
-					]
-				},
-				"description": "Usernames can only be a max of 20 characters"
 			},
 			"response": []
 		},
@@ -355,7 +307,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -403,7 +355,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\":true});",
+							"    pm.response.to.have.body({\"msg\" : \"Account Successfully Created!\", \"status\": true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -499,7 +451,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -643,7 +595,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -739,7 +691,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -787,7 +739,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error (Duplicate)\", function () {",
-							"    pm.response.to.have.body({\"status\":false});",
+							"    pm.response.to.have.body({\"msg\" : \"Error Creating Account.\", \"status\": false});",
 							"});"
 						],
 						"type": "text/javascript"
