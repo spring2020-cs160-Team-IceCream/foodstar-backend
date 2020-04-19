@@ -19,7 +19,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"    pm.response.to.have.body({\"status\": true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -67,7 +67,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -163,7 +163,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -211,7 +211,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"    pm.response.to.have.body({\"status\":true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -259,7 +259,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -355,7 +355,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -403,7 +403,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Successful\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Account Successfully Created!\"});",
+							"    pm.response.to.have.body({\"status\":true});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -499,7 +499,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -643,7 +643,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -739,7 +739,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
@@ -787,7 +787,7 @@
 							"});",
 							"",
 							"pm.test(\"Return Account Creation Error (Duplicate)\", function () {",
-							"    pm.response.to.have.body({\"status\":\"Error Creating Account.\"});",
+							"    pm.response.to.have.body({\"status\":false});",
 							"});"
 						],
 						"type": "text/javascript"
