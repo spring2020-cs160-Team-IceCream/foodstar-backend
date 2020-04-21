@@ -3,6 +3,9 @@ const crypto = require('crypto');
 const config = require('config');
 var cors = require('cors');
 
+var multer = require('multer')
+var upload = multer({dest: './files/'})
+
 const app = express()
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -239,8 +242,14 @@ app.delete('/api/delete_account', async (req, res) => {
  *   2. Create name field for restaurant, set to 0 or 1 for default
  *     a. Reformat API to specify variable names
  */
-app.post('/api/post', async (req, res) => {
+app.post('/api/post', upload.any(), async (req, res) => {
   body = req.body
+  
+  
+  
+  console.log(req.files)
+
+
   //restaurant_ID = 0
   //user_ID = body.user_id_fk
   //location = body.location
