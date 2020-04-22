@@ -4,7 +4,7 @@ const config = require('config');
 var cors = require('cors');
 
 var multer = require('multer')
-var upload = multer({dest: './files/'})
+var upload = multer({dest: '/var/www/html/files/'})
 
 const app = express()
 app.use(express.json()) // for parsing application/json
@@ -244,19 +244,39 @@ app.delete('/api/delete_account', async (req, res) => {
  *     a. Reformat API to specify variable names
  */
 app.post('/api/post', upload.any(), async (req, res) => {
-  body = req.body
+  body = JSON.parse(req.body.data)
+  result = {msg : "Account created successfully", status : true}
   
+  post = {}
   
-  
-  console.log(req.files)
+  post.rest_id_fk = 1 //TEMPORARY
+  post.user_id_fk = 1 //TEMPORARY
+  /*
+  if (!["Owner", "Casual"].includes(post.type = body.type)) {
+    result.status = false
+    result.msg = "Error: Post type is invalid."
+  }
+  */
+  post.dish_name = body.dish_name
+  if (isNaN(post.price = parseFloat(body.price))) {
+    result.status = false
+    result.msg = "Error: Price not a valid float value."
+  }
+  post.description = body.description
 
+  if (req.files.length == 0) {
+    post.post_pic = "/files/noimage.jpg"
+  } else {
+    post.post_pic = "/files/" + req.files[0].filename
+  }
 
   //restaurant_ID = 0
   //user_ID = body.user_id_fk
   //location = body.location
   // Concluding insert statement
-  createPost = await Post.create(req.body)
-  res.sendStatus(200)
+  
+  if (result.status) createPost = await Post.create(post)
+  res.send(result)
 })
 
 app.listen(port, () => console.log("Example app listening on port ${port}!"))
