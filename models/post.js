@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         timestamp: {type: 'TIMESTAMP'},
         category: {type: DataTypes.STRING},
         post_pic: {type: DataTypes.STRING},
+        dish_name: {type: DataTypes.STRING},
         description: {type: DataTypes.STRING},
         price: {type: DataTypes.DECIMAL},
         rest_rating: {type: DataTypes.DECIMAL},
