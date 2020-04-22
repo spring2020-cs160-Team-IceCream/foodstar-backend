@@ -109,6 +109,8 @@ app.post('/api/search', async (req, res) => {
  * 2. Compare hash to stored hash value in associated with specified
  *    username in database.
  *   a. Authenticates user if hash values match with JSON boolean.
+ *
+ * Returns a Boolean value indicating valid / invalid login authentication
  */
 app.post('/api/login', async (req, res) => {
   hashfunc = crypto.createHash('ripemd160')
@@ -146,10 +148,8 @@ app.post('/api/login', async (req, res) => {
  * 3. Create Settings Table Entry
  *  a. Foreign key user_id_fk matches those found in users, authentication tables
  *  b. Default values: Theme = "Light", View = "List"
- * 
- * ToDo: Implement Email into account creation
  *
- * Returns JSON object with String status for account creation
+ * Returns JSON object with String status and Boolean return value for account creation
  */
 app.post('/api/create_account', async (req, res) => {
   username = req.body.username
