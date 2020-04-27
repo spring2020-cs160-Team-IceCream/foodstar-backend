@@ -2,5 +2,8 @@
     // production settings (yes I know it's called development.json but it works like this)
     "Database": {
         "host": "localhost"
+    },
+    "FileStorage": {
+        "location": "/var/www/html/files/"
     }
 }

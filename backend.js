@@ -4,7 +4,7 @@ const config = require('config');
 var cors = require('cors');
 
 var multer = require('multer')
-var upload = multer({dest: '/var/www/html/files/'})
+var upload = multer({dest: config.get('FileStorage').location})
 
 const app = express()
 app.use(express.json()) // for parsing application/json
