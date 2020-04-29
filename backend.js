@@ -117,6 +117,8 @@ app.post('/api/login', async (req, res) => {
   username = req.body.username
   password = req.body.password
 
+  console.log(req.body)
+
   status = {status: false}
 
   users = await Authentication.findAll({ where: { "username": username } });
