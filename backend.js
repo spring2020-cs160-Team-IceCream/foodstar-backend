@@ -251,8 +251,8 @@ app.post('/api/post', upload.any(), async (req, res) => {
   
   post = {}
   
-  post.rest_id_fk = 1 //TEMPORARY
-  post.user_id_fk = 1 //TEMPORARY
+  post.rest_id_fk = body.rest_id_fk
+  post.user_id_fk = body.user_id_fk
   /*
   if (!["Owner", "Casual"].includes(post.type = body.type)) {
     result.status = false
