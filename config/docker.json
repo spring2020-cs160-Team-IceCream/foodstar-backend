@@ -1,0 +1,9 @@
+{
+    // local dev environment settings
+    "Database": {
+        "host": "10.147.20.66"
+    },
+    "FileStorage": {
+        "location": "/var/www/html/files/"
+    }
+}
