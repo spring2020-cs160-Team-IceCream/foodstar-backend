@@ -251,8 +251,8 @@ app.post('/api/post', upload.any(), async (req, res) => {
   
   post = {}
   
-  post.rest_id_fk = 1 //TEMPORARY
-  post.user_id_fk = 1 //TEMPORARY
+  post.rest_id_fk = body.rest_id_fk
+  post.user_id_fk = body.user_id_fk
   /*
   if (!["Owner", "Casual"].includes(post.type = body.type)) {
     result.status = false
@@ -260,6 +260,7 @@ app.post('/api/post', upload.any(), async (req, res) => {
   }
   */
   post.dish_name = body.dish_name
+  post.category = body.category
   if (isNaN(post.price = parseFloat(body.price))) {
     result.status = false
     result.msg = "Error: Price not a valid float value."
